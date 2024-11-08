@@ -1,0 +1,58 @@
+const Bear = require("./BearModel")
+const helloBear = (req, res) => {
+    res.send("Hellow bears")
+}
+const createBear = async (req, res) => {
+    const data= req.body;
+    try {
+        const createdBear = await Bear.create(data)
+          res.status(200).json(createdBear)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getAllbears = async (req, res) => {
+    Bear.find().then((allBears) => {
+        res.status(200).json(allBears)
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+
+const getBearById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const bear = await Bear.findById( id)
+        res.status(200).json(bear)
+    }
+    catch (error) {
+        console.log();
+
+    }
+}
+const deleteById =async (req,res)=>{
+const {id} =req.params
+try{
+    const deletebyId = await Bear.findByIdAndDelete(id)
+    res.status(204).send("deleted successfully")
+}catch(error){
+    console.log(error);
+    
+}
+
+const updateById = async(req,res)=>{
+    const {id} = req.params;
+    const data=req.body;
+    try{
+        const updatebyId = await Bear.findByIdAndUpdate(id,data,{new:true})
+        res.status(202).json(updatebyId)
+    }
+    catch(error){
+        console.log(error);
+    
+    }
+}
+
+}
+module.exports = { helloBear, createBear, getAllbears, getBearById ,deleteById};
